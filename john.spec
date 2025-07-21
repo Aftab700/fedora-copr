@@ -114,8 +114,8 @@ done
 
 %files
 %license doc/LICENSE
-%{_bindir}/*
-%{_datadir}/john/
+%{_bindir}/john
+%{_datadir}/john
 
 %changelog
 * Tue Jul 22 2025 Your Name <you@example.com> - 1.9.0-5
