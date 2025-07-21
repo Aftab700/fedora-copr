@@ -21,7 +21,7 @@ BuildRequires:  sed
 This package provides the command-line tool '7z'.
 
 %prep
-%autosetup -n %{name}-%{version}-src
+%autosetup -c -n %{name}-%{version}-src
 
 
 %build
