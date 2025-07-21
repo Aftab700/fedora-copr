@@ -2,7 +2,7 @@
 
 Name:           john
 Version:        1.9.0
-Release:        2.%{?dist}
+Release:        1%{?dist}
 Summary:        A fast password cracker
 
 License:        GPL-2.0-or-later
