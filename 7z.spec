@@ -38,7 +38,7 @@ sed -i 's/-Wl,-pie/-Wl,-no-pie/' makefile
 sed -i '/sudo install/d' makefile
 
 # Compile asmc
-make %{?_smp_mflags}
+make #%{?_smp_mflags}
 cd ../../../
 
 # Add the newly built assembler to the PATH for the main 7-Zip build
