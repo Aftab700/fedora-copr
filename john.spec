@@ -97,6 +97,8 @@ done
 # The build system correctly handles scripts that already specify python2.
 for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.py"); do
     sed -i '1s|^#!/usr/bin/env python\s*$|#!/usr/bin/python3|' "$SCRIPT"
+    sed -i '1s|^#!/usr/bin/env python2\s*$|#!/usr/bin/python2|' "$SCRIPT"
+    sed -i '1s|^#!/usr/bin/env python3\s*$|#!/usr/bin/python3|' "$SCRIPT"
 done
 
 for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.pl"); do
