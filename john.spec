@@ -2,7 +2,7 @@
 
 Name:           john
 Version:        1.9.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A fast password cracker
 
 License:        GPL-2.0-or-later
@@ -67,15 +67,10 @@ make %{?_smp_mflags}
 
 # Create all necessary directories first
 install -d -m 755 %{buildroot}%{_bindir}
-install -d -m 755 %{buildroot}%{_sysconfdir}
 install -d -m 755 %{buildroot}%{_datadir}/john
-install -d -m 755 %{buildroot}%{_mandir}/man8
 
 # Install the main binary
-install -m 755 run/john %{buildroot}%{_bindir}/john
-
-# Install the configuration file
-install -m 644 run/john.conf %{buildroot}%{_sysconfdir}/john.conf
+ln -s run/john %{buildroot}%{_bindir}/john
 
 ## Install all other executable scripts and tools to /usr/bin
 ## so they are in the user's PATH.
@@ -94,7 +89,7 @@ install -m 644 run/john.conf %{buildroot}%{_sysconfdir}/john.conf
 #    fi
 #done
 # Find all files that DO NOT start with "john" and install them to /usr/share/john
-rsync -a --exclude 'john*' run/ %{buildroot}%{_datadir}/john/
+rsync -a run/ %{buildroot}%{_datadir}/john/
 
 # Fix ambiguous shebangs to be explicit, handling trailing whitespace etc.
 # The build system correctly handles scripts that already specify python2.
@@ -119,7 +114,6 @@ done
 %files
 %license doc/LICENSE
 %{_bindir}/*
-%config(noreplace) %{_sysconfdir}/john.conf
 %{_datadir}/john/
 
 %changelog
