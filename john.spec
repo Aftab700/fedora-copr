@@ -93,6 +93,16 @@ for f in $(find run -maxdepth 1 -type f ! -executable); do
     fi
 done
 
+# Fix ambiguous shebangs in python scripts
+for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.py"); do
+    sed -i '1s|^#!/usr/bin/env python$|#!/usr/bin/python3|' "$SCRIPT"
+done
+
+# Fix ambiguous shebangs in perl scripts
+for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.pl"); do
+    sed -i '1s|^#!/usr/bin/env perl|#!/usr/bin/perl|' "$SCRIPT"
+done
+
 %files
 %license doc/LICENSE
 %doc doc/README.md doc/INSTALL
