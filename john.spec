@@ -92,10 +92,8 @@ install -m 644 run/john.conf %{buildroot}%{_sysconfdir}/john.conf
 #        install -m 644 $f %{buildroot}%{_datadir}/john/
 #    fi
 #done
-# Find all files that DO NOT start with "john" and install them
-for f in $(find run -type f ! -name "john*"); do
-    install -m 644 $f %{buildroot}%{_datadir}/john/
-done
+# Find all files that DO NOT start with "john" and install them to /usr/share/john
+rsync -a --exclude 'john*' run/ %{buildroot}%{_datadir}/john/
 
 ## Fix ambiguous shebangs to be explicit, handling trailing whitespace etc.
 ## The build system correctly handles scripts that already specify python2.
