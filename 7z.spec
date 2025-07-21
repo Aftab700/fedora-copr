@@ -33,4 +33,13 @@ mv %{buildroot}%{_bindir}/7zz %{buildroot}%{_bindir}/7z
 %{_bindir}/7z
 
 %changelog
-%(curl -sk https://www.7-zip.org/history.txt | sed -n '/25\.00/,/^[0-9]\{2\}\.[0-9]\{2\}/p' | sed '$d' | sed '$d')
+25.00          2025-07-05
+-------------------------
+- 7-Zip for Windows can now use more than 64 CPU threads for compression
+  to zip/7z/xz archives and for the 7-Zip benchmark.
+  If there are more than one processor group in Windows (on systems with more than
+  64 cpu threads), 7-Zip distributes running CPU threads across different processor groups.
+- bzip2 compression speed was increased by 15-40%.
+- deflate (zip/gz) compression speed was increased by 1-3%.
+- improved support for zip, cpio and fat archives.
+- fixed some bugs and vulnerabilities.
