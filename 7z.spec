@@ -19,9 +19,16 @@ BuildRequires:  make, gcc, gcc-c++
 
 %build
 # TODO needs masm for cmpl_gcc_x64.mak
-%make_build \
-    -C CPP/7zip/Bundles/Alone2 \
-    -f ../../cmpl_gcc.mak
+git clone https://github.com/nidud/asmc.git
+cd asmc/source/asmc
+make
+make install
+cd -
+cd CPP/7zip/Bundles/Alone2
+make -j -f makefile.gcc
+#%make_build \
+#    -C CPP/7zip/Bundles/Alone2 \
+#    -f ../../cmpl_gcc.mak
 
 %install
 install -D -m 755 \
