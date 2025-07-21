@@ -16,6 +16,7 @@ BuildRequires:  make
 BuildRequires:  git
 BuildRequires:  which
 BuildRequires:  rsync
+Requires:       python2.7
 
 # Core dependencies
 BuildRequires:  openssl-devel
@@ -70,7 +71,7 @@ install -d -m 755 %{buildroot}%{_bindir}
 install -d -m 755 %{buildroot}%{_datadir}/john
 
 # Install the main binary
-ln -s run/john %{buildroot}%{_bindir}/john
+ln -s ../share/john/john %{buildroot}%{_bindir}/john
 
 ## Install all other executable scripts and tools to /usr/bin
 ## so they are in the user's PATH.
