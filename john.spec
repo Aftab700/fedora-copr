@@ -94,7 +94,7 @@ for f in $(find run -maxdepth 1 -type f ! -executable); do
 done
 
 # Install the man page
-install -m 644 doc/john.8 %{buildroot}%{_mandir}/man8/john.8
+install -m 644 run/doc/john.8 %{buildroot}%{_mandir}/man8/john.8
 
 %files
 %license doc/LICENSE
