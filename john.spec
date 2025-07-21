@@ -96,19 +96,19 @@ install -m 644 run/john.conf %{buildroot}%{_sysconfdir}/john.conf
 # Find all files that DO NOT start with "john" and install them to /usr/share/john
 rsync -a --exclude 'john*' run/ %{buildroot}%{_datadir}/john/
 
-## Fix ambiguous shebangs to be explicit, handling trailing whitespace etc.
-## The build system correctly handles scripts that already specify python2.
-#for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.py"); do
-#    sed -i '1s|^#!\s*/usr/bin/env python\s*$|#!/usr/bin/python3|' "$SCRIPT"
-#    sed -i '1s|^#!\s*/usr/bin/env python2\s*$|#!/usr/bin/python2|' "$SCRIPT"
-#    sed -i '1s|^#!\s*/usr/bin/env python3\s*$|#!/usr/bin/python3|' "$SCRIPT"
-#    sed -i 's|/usr/bin/env |/usr/bin/|' "$SCRIPT"
-#done
+# Fix ambiguous shebangs to be explicit, handling trailing whitespace etc.
+# The build system correctly handles scripts that already specify python2.
+for SCRIPT in $(find %{buildroot}%{_datadir} -type f -name "*.py"); do
+    sed -i '1s|^#!\s*/usr/bin/env python\s*$|#!/usr/bin/python3|' "$SCRIPT"
+    sed -i '1s|^#!\s*/usr/bin/env python2\s*$|#!/usr/bin/python2|' "$SCRIPT"
+    sed -i '1s|^#!\s*/usr/bin/env python3\s*$|#!/usr/bin/python3|' "$SCRIPT"
+    sed -i 's|/usr/bin/env |/usr/bin/|' "$SCRIPT"
+done
 
-#for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.pl"); do
-#    #sed -i '1s|^#!\s*/usr/bin/env perl\s*$|#!/usr/bin/perl|' %{buildroot}%{_bindir}$SCRIPT
-#    sed -i 's|/usr/bin/env |/usr/bin/|' %{buildroot}%{_bindir}$SCRIPT
-#done
+for SCRIPT in $(find %{buildroot}%{_datadir} -type f -name "*.pl"); do
+    sed -i '1s|^#!\s*/usr/bin/env perl\s*$|#!/usr/bin/perl|' "$SCRIPT"
+    sed -i 's|/usr/bin/env |/usr/bin/|' "$SCRIPT"
+done
 
 #my_array=("benchmark-unify" "mailer" "makechr" "relbench")
 #for SCRIPT in "${my_array[@]}"; do
