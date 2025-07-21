@@ -1,9 +1,8 @@
 %global debug_package %{nil}
-%global git_commit %(echo $(git ls-remote https://github.com/openwall/john.git bleeding-jumbo | cut -c1-7))
 
 Name:           john
 Version:        1.9.0
-Release:        1.git%{git_commit}%{?dist}
+Release:        1.%{?dist}
 Summary:        A fast password cracker
 
 License:        GPL-2.0-or-later
@@ -55,10 +54,10 @@ community-enhanced features and support for more formats.
 %build
 # The build process happens inside the 'src' directory
 cd src
-./configure --with-openssl --enable-ntlm-v2
+./configure --with-openssl
 
 # Compile the source code using all available CPU cores
-make -j%{?_smp_mflags}
+make %{?_smp_mflags}
 
 %install
 # John the Ripper doesn't have a traditional 'make install'.
