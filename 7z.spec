@@ -27,8 +27,8 @@ BuildRequires:  make, gcc, gcc-c++
 install -D -m 755 \
 	CPP/7zip/Bundles/Alone2/b/g/7zz \
 	%{buildroot}%{_bindir}/7zz
-mv %{_bindir}/7zz %{_bindir}/7z
-mv %{_bindir}/7zzs %{_bindir}/7zs
+mv %{buildroot}%{_bindir}/7zz %{buildroot}%{_bindir}/7z
+mv %{buildroot}%{_bindir}/7zzs %{buildroot}%{_bindir}/7zs
 
 %files
 %{_bindir}/7z
