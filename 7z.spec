@@ -2,7 +2,7 @@
 
 Name:           7zip
 Version:        25.00
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File archiver with a high compression ratio
 
 Provides:       p7zip = %{version}-%{release}
