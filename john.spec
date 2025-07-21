@@ -2,7 +2,7 @@
 
 Name:           john
 Version:        1.9.0
-Release:        1.%{?dist}
+Release:        2.%{?dist}
 Summary:        A fast password cracker
 
 License:        GPL-2.0-or-later
@@ -105,9 +105,5 @@ install -m 644 ../doc/john.8 %{buildroot}%{_mandir}/man8/john.8
 %{_mandir}/man8/john.8.gz
 
 %changelog
-* Mon Jul 21 2025 Your Name <you@example.com> - 1.9.0-2.git%{git_commit}
-- Correctly install helper scripts to /usr/bin to be in the system PATH.
-- Separate data files into /usr/share/john.
-
-* Mon Jul 21 2025 Your Name <you@example.com> - 1.9.0-1.git%{git_commit}
-- Initial RPM packaging for the bleeding-jumbo branch of John the Ripper.
+* Tue Jul 22 2025 Your Name <you@example.com> - 1.9.0-5
+- Final corrections for COPR build environment.
