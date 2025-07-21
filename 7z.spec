@@ -28,11 +28,11 @@ install -D -m 755 \
 	CPP/7zip/Bundles/Alone2/b/g/7zz \
 	%{buildroot}%{_bindir}/7zz
 mv %{buildroot}%{_bindir}/7zz %{buildroot}%{_bindir}/7z
-mv %{buildroot}%{_bindir}/7zzs %{buildroot}%{_bindir}/7zs
+#mv %{buildroot}%{_bindir}/7zzs %{buildroot}%{_bindir}/7zs
 
 %files
 %{_bindir}/7z
-%{_bindir}/7zs
+#%{_bindir}/7zs
 
 %changelog
 %(curl -sk https://www.7-zip.org/history.txt | sed -n '/25\.00/,/^[0-9]\{2\}\.[0-9]\{2\}/p' | sed '$d' | sed '$d')
