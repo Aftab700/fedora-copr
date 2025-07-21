@@ -19,8 +19,8 @@ BuildRequires:  which
 
 # Core dependencies
 BuildRequires:  openssl-devel
-BuildRequires:  yacc
-BuildRequires:  yasm gmp-devel
+BuildRequires:  bison
+BuildRequires:  yasm
 BuildRequires:  libpcap-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  flex
@@ -30,13 +30,11 @@ BuildRequires:  zlib-devel
 # Optional dependencies for various formats
 BuildRequires:  krb5-devel
 BuildRequires:  libicu-devel
-BuildRequires:  libgssglue-devel
 BuildRequires:  libssh-devel
 BuildRequires:  libxcrypt-devel
 BuildRequires:  openldap-devel
 BuildRequires:  perl
 BuildRequires:  python3-devel
-BuildRequires:  rocm-smi-lib-devel
 BuildRequires:  p11-kit-devel
 BuildRequires:  libkadm5
 
@@ -67,34 +65,50 @@ make -j%{?_smp_mflags}
 # All compiled files are placed in the 'run' directory.
 # We will manually install them to the correct locations in the buildroot.
 
-# Install the main binary
+# Create all necessary directories first
 install -d -m 755 %{buildroot}%{_bindir}
+install -d -m 755 %{buildroot}%{_sysconfdir}
+install -d -m 755 %{buildroot}%{_datadir}/john
+install -d -m 755 %{buildroot}%{_mandir}/man8
+
+# Install the main binary
 install -m 755 ../run/john %{buildroot}%{_bindir}/john
 
 # Install the configuration file
-install -d -m 755 %{buildroot}%{_sysconfdir}
 install -m 644 ../run/john.conf %{buildroot}%{_sysconfdir}/john.conf
 
-# Create a data directory for all other helper scripts and files
-install -d -m 755 %{buildroot}%{_datadir}/john
-cp -r ../run/* %{buildroot}%{_datadir}/john/
+# Install all other executable scripts and tools to /usr/bin
+# so they are in the user's PATH.
+for f in $(find ../run -maxdepth 1 -type f -executable); do
+    # The main 'john' binary is already handled, so skip it here.
+    if [[ $(basename $f) != "john" ]]; then
+        install -m 755 $f %{buildroot}%{_bindir}/
+    fi
+done
 
-# Remove the files we've already installed elsewhere to avoid duplication
-rm -f %{buildroot}%{_datadir}/john/john
-rm -f %{buildroot}%{_datadir}/john/john.conf
+# Install all non-executable files (wordlists, .chr files, etc.) to /usr/share/john
+for f in $(find ../run -maxdepth 1 -type f ! -executable); do
+    # The 'john.conf' file is already handled, so skip it here.
+    if [[ $(basename $f) != "john.conf" ]]; then
+        install -m 644 $f %{buildroot}%{_datadir}/john/
+    fi
+done
 
 # Install the man page
-install -d -m 755 %{buildroot}%{_mandir}/man8
 install -m 644 ../doc/john.8 %{buildroot}%{_mandir}/man8/john.8
 
 %files
 %license ../doc/LICENSE
 %doc ../doc/README.md ../doc/INSTALL
-%{_bindir}/john
+%{_bindir}/*
 %config(noreplace) %{_sysconfdir}/john.conf
 %{_datadir}/john/
 %{_mandir}/man8/john.8.gz
 
 %changelog
+* Mon Jul 21 2025 Your Name <you@example.com> - 1.9.0-2.git%{git_commit}
+- Correctly install helper scripts to /usr/bin to be in the system PATH.
+- Separate data files into /usr/share/john.
+
 * Mon Jul 21 2025 Your Name <you@example.com> - 1.9.0-1.git%{git_commit}
 - Initial RPM packaging for the bleeding-jumbo branch of John the Ripper.
