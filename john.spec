@@ -93,14 +93,14 @@ for f in $(find run -maxdepth 1 -type f ! -executable); do
     fi
 done
 
-# Fix ambiguous shebangs in python scripts
+# Fix ambiguous shebangs to be explicit, handling trailing whitespace etc.
+# The build system correctly handles scripts that already specify python2.
 for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.py"); do
-    sed -i '1s|^#!/usr/bin/env python$|#!/usr/bin/python3|' "$SCRIPT"
+    sed -i '1s|^#!/usr/bin/env python\s*$|#!/usr/bin/python3|' "$SCRIPT"
 done
 
-# Fix ambiguous shebangs in perl scripts
 for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.pl"); do
-    sed -i '1s|^#!/usr/bin/env perl|#!/usr/bin/perl|' "$SCRIPT"
+    sed -i '1s|^#!/usr/bin/env perl\s*$|#!/usr/bin/perl|' "$SCRIPT"
 done
 
 %files
