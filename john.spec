@@ -1,4 +1,5 @@
 %global debug_package %{nil}
+%global __requires_exclude ^/usr/bin/python2$
 
 Name:           john
 Version:        1.9.0
@@ -16,7 +17,6 @@ BuildRequires:  make
 BuildRequires:  git
 BuildRequires:  which
 BuildRequires:  rsync
-Requires:       python2.7
 
 # Core dependencies
 BuildRequires:  openssl-devel
