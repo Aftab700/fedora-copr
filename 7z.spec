@@ -7,7 +7,7 @@ License:        7-Zip is free software with open source. The most of the code is
 URL:            https://www.7-zip.org
 Source0:        %{url}/a/7z%(tr -d . <<<"%version")-src.tar.xz
 
-BuildRequires:  make, gcc, gcc-c++
+BuildRequires:  make, gcc, gcc-c++, git
 
 %description
 
