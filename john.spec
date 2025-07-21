@@ -71,14 +71,14 @@ install -d -m 755 %{buildroot}%{_datadir}/john
 install -d -m 755 %{buildroot}%{_mandir}/man8
 
 # Install the main binary
-install -m 755 ../run/john %{buildroot}%{_bindir}/john
+install -m 755 run/john %{buildroot}%{_bindir}/john
 
 # Install the configuration file
-install -m 644 ../run/john.conf %{buildroot}%{_sysconfdir}/john.conf
+install -m 644 run/john.conf %{buildroot}%{_sysconfdir}/john.conf
 
 # Install all other executable scripts and tools to /usr/bin
 # so they are in the user's PATH.
-for f in $(find ../run -maxdepth 1 -type f -executable); do
+for f in $(find run -maxdepth 1 -type f -executable); do
     # The main 'john' binary is already handled, so skip it here.
     if [[ $(basename $f) != "john" ]]; then
         install -m 755 $f %{buildroot}%{_bindir}/
@@ -86,7 +86,7 @@ for f in $(find ../run -maxdepth 1 -type f -executable); do
 done
 
 # Install all non-executable files (wordlists, .chr files, etc.) to /usr/share/john
-for f in $(find ../run -maxdepth 1 -type f ! -executable); do
+for f in $(find run -maxdepth 1 -type f ! -executable); do
     # The 'john.conf' file is already handled, so skip it here.
     if [[ $(basename $f) != "john.conf" ]]; then
         install -m 644 $f %{buildroot}%{_datadir}/john/
@@ -94,11 +94,11 @@ for f in $(find ../run -maxdepth 1 -type f ! -executable); do
 done
 
 # Install the man page
-install -m 644 ../doc/john.8 %{buildroot}%{_mandir}/man8/john.8
+install -m 644 doc/john.8 %{buildroot}%{_mandir}/man8/john.8
 
 %files
-%license ../doc/LICENSE
-%doc ../doc/README.md ../doc/INSTALL
+%license doc/LICENSE
+%doc doc/README.md doc/INSTALL
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/john.conf
 %{_datadir}/john/
