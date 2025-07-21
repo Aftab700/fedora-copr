@@ -62,8 +62,6 @@ mv %{buildroot}%{_bindir}/7zz %{buildroot}%{_bindir}/7z
 
 
 %files
-%license DOC/License.txt
-%doc DOC/History.txt DOC/readme.txt
 %{_bindir}/7z
 
 
