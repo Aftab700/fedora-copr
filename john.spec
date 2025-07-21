@@ -115,11 +115,9 @@ done
 
 %files
 %license doc/LICENSE
-%doc doc/README.md doc/INSTALL
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/john.conf
 %{_datadir}/john/
-%{_mandir}/man8/john.8.gz
 
 %changelog
 * Tue Jul 22 2025 Your Name <you@example.com> - 1.9.0-5
