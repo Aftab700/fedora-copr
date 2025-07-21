@@ -5,6 +5,11 @@ Version:        25.00
 Release:        1%{?dist}
 Summary:        File archiver with a high compression ratio
 
+Provides:       p7zip = %{version}-%{release}
+Provides:       p7zip-plugins = %{version}-%{release}
+Conflicts:      p7zip
+Conflicts:      p7zip-plugins
+
 # Use standard SPDX identifiers for the license
 License:        LGPL-2.1-or-later and BSD-3-Clause and UnRar
 URL:            https://www.7-zip.org
@@ -21,6 +26,7 @@ BuildRequires:  sed
 This package provides the command-line tool '7z'.
 
 %prep
+# Use -c to create the directory, as the source tarball lacks a top-level one.
 %autosetup -c -n %{name}-%{version}-src
 
 
@@ -39,7 +45,6 @@ sed -i '/sudo install/d' makefile
 
 # Compile asmc serially, as its makefile is not safe for parallel builds.
 make
-#make %{?_smp_mflags}
 cd ../../../
 
 # Add the newly built assembler to the PATH for the main 7-Zip build
@@ -57,6 +62,7 @@ make %{?_smp_mflags} -f makefile.gcc
 # Install the compiled binary into the buildroot
 install -d -m 755 %{buildroot}%{_bindir}
 install -m 755 CPP/7zip/Bundles/Alone2/_o/7zz %{buildroot}%{_bindir}/7zz
+
 # Rename the executable to the more common '7z'
 mv %{buildroot}%{_bindir}/7zz %{buildroot}%{_bindir}/7z
 
@@ -66,6 +72,9 @@ mv %{buildroot}%{_bindir}/7zz %{buildroot}%{_bindir}/7z
 
 
 %changelog
+* Mon Jul 21 2025 Aftab <aftab@example.com> - 25.00-2
+- Add Provides/Conflicts tags to resolve conflicts with official p7zip packages.
+
 * Mon Jul 21 2025 Your Name <you@example.com> - 25.00-1
 - Initial package for version 25.00
 - Added build-time cloning and patching of 'asmc' to enable x86_64 compilation
