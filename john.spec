@@ -107,6 +107,12 @@ for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.pl"); do
     sed -i 's|/usr/bin/env |/usr/bin/|' "$SCRIPT"
 done
 
+my_array=("benchmark-unify" "mailer" "makechr" "relbench")
+for SCRIPT in "${my_array[@]}"; do
+    sed -i 's|/usr/bin/env |/usr/bin/|' "$SCRIPT"
+    sed -i 's|/bin/sh|/usr/bin/sh|' "$SCRIPT"
+done
+
 %files
 %license doc/LICENSE
 %doc doc/README.md doc/INSTALL
