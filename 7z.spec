@@ -37,8 +37,9 @@ cd asmc/source/asmc
 sed -i 's/-Wl,-pie/-Wl,-no-pie/' makefile
 sed -i '/sudo install/d' makefile
 
-# Compile asmc
-make #%{?_smp_mflags}
+# Compile asmc serially, as its makefile is not safe for parallel builds.
+make
+#make %{?_smp_mflags}
 cd ../../../
 
 # Add the newly built assembler to the PATH for the main 7-Zip build
@@ -55,8 +56,7 @@ make %{?_smp_mflags} -f makefile.gcc
 %install
 # Install the compiled binary into the buildroot
 install -d -m 755 %{buildroot}%{_bindir}
-install -m 755 CPP/7zip/Bundles/Alone2/b/g/7zz %{buildroot}%{_bindir}/7zz
-
+install -m 755 CPP/7zip/Bundles/Alone2/_o/7zz %{buildroot}%{_bindir}/7zz
 # Rename the executable to the more common '7z'
 mv %{buildroot}%{_bindir}/7zz %{buildroot}%{_bindir}/7z
 
