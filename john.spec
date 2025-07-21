@@ -15,6 +15,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  make
 BuildRequires:  git
 BuildRequires:  which
+BuildRequires:  rsync
 
 # Core dependencies
 BuildRequires:  openssl-devel
