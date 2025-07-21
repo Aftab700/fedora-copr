@@ -76,21 +76,25 @@ install -m 755 run/john %{buildroot}%{_bindir}/john
 # Install the configuration file
 install -m 644 run/john.conf %{buildroot}%{_sysconfdir}/john.conf
 
-# Install all other executable scripts and tools to /usr/bin
-# so they are in the user's PATH.
-for f in $(find run -maxdepth 1 -type f -executable); do
-    # The main 'john' binary is already handled, so skip it here.
-    if [[ $(basename $f) != "john" ]]; then
-        install -m 755 $f %{buildroot}%{_bindir}/
-    fi
-done
-
-# Install all non-executable files (wordlists, .chr files, etc.) to /usr/share/john
-for f in $(find run -maxdepth 1 -type f ! -executable); do
-    # The 'john.conf' file is already handled, so skip it here.
-    if [[ $(basename $f) != "john.conf" ]]; then
-        install -m 644 $f %{buildroot}%{_datadir}/john/
-    fi
+## Install all other executable scripts and tools to /usr/bin
+## so they are in the user's PATH.
+#for f in $(find run -maxdepth 1 -type f -executable); do
+#    # The main 'john' binary is already handled, so skip it here.
+#    if [[ $(basename $f) != "john" ]]; then
+#        install -m 755 $f %{buildroot}%{_bindir}/
+#    fi
+#done
+#
+## Install all non-executable files (wordlists, .chr files, etc.) to /usr/share/john
+#for f in $(find run -maxdepth 1 -type f ! -executable); do
+#    # The 'john.conf' file is already handled, so skip it here.
+#    if [[ $(basename $f) != "john.conf" ]]; then
+#        install -m 644 $f %{buildroot}%{_datadir}/john/
+#    fi
+#done
+# Find all files that DO NOT start with "john" and install them
+for f in $(find run -type f ! -name "john*"); do
+    install -m 644 $f %{buildroot}%{_datadir}/john/
 done
 
 # Fix ambiguous shebangs to be explicit, handling trailing whitespace etc.
@@ -102,10 +106,10 @@ for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.py"); do
     sed -i 's|/usr/bin/env |/usr/bin/|' "$SCRIPT"
 done
 
-for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.pl"); do
-    #sed -i '1s|^#!\s*/usr/bin/env perl\s*$|#!/usr/bin/perl|' "$SCRIPT"
-    sed -i 's|/usr/bin/env |/usr/bin/|' "$SCRIPT"
-done
+#for SCRIPT in $(find %{buildroot}%{_bindir} -type f -name "*.pl"); do
+#    #sed -i '1s|^#!\s*/usr/bin/env perl\s*$|#!/usr/bin/perl|' %{buildroot}%{_bindir}$SCRIPT
+#    sed -i 's|/usr/bin/env |/usr/bin/|' %{buildroot}%{_bindir}$SCRIPT
+#done
 
 my_array=("benchmark-unify" "mailer" "makechr" "relbench")
 for SCRIPT in "${my_array[@]}"; do
